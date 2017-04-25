@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Get VPAID</title>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+
+<h1>Put the Paid into VPAID</h1>
+<div id="ad_div"></div>
+<video id="vid_div" width="320" height="240" controls>
+  <source src="http://vendri.com/test/assets/big_buck_bunny.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<script src="VPAIDWrapper.js"></script>
+<script>
+  var iframe,
+      adDiv,
+      fn,
+      VPAIDCreative,
+      testVid,
+      vpaidWrapper;
+
+  iframe = document.createElement('iframe');
+  iframe.id = "adloaderframe";
+
+  adDiv = document.getElementById('ad_div');
+  testVid = document.getElementById('vid_div');
+  testVid.volume = 0.1;
+  adDiv.appendChild(iframe);
+  // ‘url’ points to the ad js file
+  iframe.contentWindow.document.write('<script src="' + 'vpaid.js' + '"></scr' + 'ipt>');
+
+  function setupTest() {
+    fn = iframe.contentWindow['getVPAIDAd'];
+    console.log('fn is ', fn);
+    if (fn && typeof fn === 'function') {
+      console.log('found it');
+      VPAIDCreative = fn();
+    }
+
+    vpaidWrapper = new VPAIDWrapper(VPAIDCreative);
+//    VPAIDCreative.initAd(adDiv.clientWidth, adDiv.clientHeight,
+//        'awesome', 600, {dude:'abides'},
+//        {slot: adDiv, videoSlot: testVid});
+
+  }
+  setTimeout(setupTest, 1000);
+</script>
+</body>
+</html>
